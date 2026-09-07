@@ -1,0 +1,9 @@
+Django==5.2.*
+djangorestframework
+requests
+beautifulsoup4
+lxml
+python-decouple
+django-cors-headers
+gunicorn
+whitenoise
