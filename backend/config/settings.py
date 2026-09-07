@@ -34,16 +34,17 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost", cast=Csv(
 # Application definition
 
 INSTALLED_APPS = [
+    # Core Django
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # third-party
+    # Third-party
     "rest_framework",
     "corsheaders",
-    # my apps
+    # Local apps
     "stocks",
     "scraper",
 ]
@@ -134,16 +135,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-# Django REST Framework — pagination for long lists (PDF requirement)
+# REST Framework
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
 }
 
-# Let the React frontend talk to this backend during development
+# CORS configuration
 CORS_ALLOW_ALL_ORIGINS = True
 
-# Scraper settings, read from the environment
+# Scraper configuration
 SCRAPER_REQUEST_DELAY = config("REQUEST_DELAY", default=2, cast=int)
 SCRAPER_RETRY_COUNT = config("RETRY_COUNT", default=3, cast=int)
 SCRAPER_USER_AGENT = config("USER_AGENT", default="Mozilla/5.0")

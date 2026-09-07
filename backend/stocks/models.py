@@ -13,7 +13,6 @@ class Ticker(models.Model):
     business_summary = models.TextField(blank=True, default="")
     full_time_employees = models.IntegerField(null=True, blank=True)
     last_scraped_at = models.DateTimeField(null=True, blank=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -25,20 +24,44 @@ class Ticker(models.Model):
 
 
 class Quote(models.Model):
-    ticker = models.ForeignKey(Ticker, on_delete=models.CASCADE, related_name="quotes")
-    current_price = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    change = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    change_percent = models.DecimalField(max_digits=10, decimal_places=4, null=True, blank=True)
-    previous_close = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    open_price = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    days_low = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    days_high = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    week52_low = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    week52_high = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
+    ticker = models.ForeignKey(
+        Ticker, on_delete=models.CASCADE, related_name="quotes"
+    )
+    current_price = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
+    change = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
+    change_percent = models.DecimalField(
+        max_digits=10, decimal_places=4, null=True, blank=True
+    )
+    previous_close = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
+    open_price = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
+    days_low = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
+    days_high = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
+    week52_low = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
+    week52_high = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
     volume = models.BigIntegerField(null=True, blank=True)
     market_cap = models.BigIntegerField(null=True, blank=True)
-    pe_ratio = models.DecimalField(max_digits=15, decimal_places=4, null=True, blank=True)
-    eps = models.DecimalField(max_digits=15, decimal_places=4, null=True, blank=True)
+    pe_ratio = models.DecimalField(
+        max_digits=15, decimal_places=4, null=True, blank=True
+    )
+    eps = models.DecimalField(
+        max_digits=15, decimal_places=4, null=True, blank=True
+    )
     scraped_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -49,18 +72,30 @@ class Quote(models.Model):
 
 
 class HistoricalPrice(models.Model):
-    ticker = models.ForeignKey(Ticker, on_delete=models.CASCADE, related_name="historical_prices")
+    ticker = models.ForeignKey(
+        Ticker, on_delete=models.CASCADE, related_name="historical_prices"
+    )
     date = models.DateField()
-    open_price = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    high_price = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    low_price = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    close_price = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
+    open_price = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
+    high_price = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
+    low_price = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
+    close_price = models.DecimalField(
+        max_digits=20, decimal_places=4, null=True, blank=True
+    )
     volume = models.BigIntegerField(null=True, blank=True)
 
     class Meta:
         ordering = ["-date"]
         constraints = [
-            models.UniqueConstraint(fields=["ticker", "date"], name="unique_ticker_date")
+            models.UniqueConstraint(
+                fields=["ticker", "date"], name="unique_ticker_date"
+            )
         ]
 
     def __str__(self):
@@ -68,13 +103,14 @@ class HistoricalPrice(models.Model):
 
 
 class NewsArticle(models.Model):
-    ticker = models.ForeignKey(Ticker, on_delete=models.CASCADE, related_name="news")
+    ticker = models.ForeignKey(
+        Ticker, on_delete=models.CASCADE, related_name="news"
+    )
     title = models.CharField(max_length=500)
     url = models.URLField(max_length=1000, unique=True)
     source = models.CharField(max_length=200, blank=True, default="")
     published_at = models.DateTimeField(null=True, blank=True)
     published_raw = models.CharField(max_length=200, blank=True, default="")
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -91,7 +127,11 @@ class ScrapeLog(models.Model):
         FAILED = "failed", "Failed"
 
     ticker = models.ForeignKey(
-        Ticker, on_delete=models.SET_NULL, null=True, blank=True, related_name="scrape_logs"
+        Ticker,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="scrape_logs",
     )
     status = models.CharField(max_length=10, choices=Status.choices)
     started_at = models.DateTimeField()

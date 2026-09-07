@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Ticker, Quote, HistoricalPrice, NewsArticle, ScrapeLog
+from .models import HistoricalPrice, NewsArticle, Quote, ScrapeLog, Ticker
 
 
 @admin.register(Ticker)
@@ -15,7 +15,15 @@ class QuoteAdmin(admin.ModelAdmin):
 
 @admin.register(HistoricalPrice)
 class HistoricalPriceAdmin(admin.ModelAdmin):
-    list_display = ("ticker", "date", "open_price", "high_price", "low_price", "close_price", "volume")
+    list_display = (
+        "ticker",
+        "date",
+        "open_price",
+        "high_price",
+        "low_price",
+        "close_price",
+        "volume",
+    )
     list_filter = ("ticker",)
 
 
@@ -26,5 +34,11 @@ class NewsArticleAdmin(admin.ModelAdmin):
 
 @admin.register(ScrapeLog)
 class ScrapeLogAdmin(admin.ModelAdmin):
-    list_display = ("ticker", "status", "started_at", "finished_at", "records_affected")
+    list_display = (
+        "ticker",
+        "status",
+        "started_at",
+        "finished_at",
+        "records_affected",
+    )
     list_filter = ("status",)
