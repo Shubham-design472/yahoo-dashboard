@@ -1,9 +1,3 @@
-"""
-Standard Pagination configuration.
-
-Allows client page size overrides via `?page_size=...` up to a maximum limit of 500.
-"""
-
 from rest_framework.pagination import PageNumberPagination
 
 

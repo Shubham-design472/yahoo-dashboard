@@ -1,7 +1,3 @@
-"""
-Serializers convert model instances to JSON and validate input payloads.
-"""
-
 from rest_framework import serializers
 from .models import Ticker, Quote, HistoricalPrice, NewsArticle, ScrapeLog
 
