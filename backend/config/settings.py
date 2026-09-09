@@ -35,6 +35,11 @@ ALLOWED_HOSTS = config(
     cast=Csv()
 )
 
+import os
+_render_host = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if _render_host:
+    ALLOWED_HOSTS.append(_render_host)
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware", 
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -152,6 +158,18 @@ CORS_ALLOW_ALL_ORIGINS = True
 SCRAPER_REQUEST_DELAY = config("REQUEST_DELAY", default=2, cast=int)
 SCRAPER_RETRY_COUNT = config("RETRY_COUNT", default=3, cast=int)
 SCRAPER_USER_AGENT = config("USER_AGENT", default="Mozilla/5.0")
+
+
+
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+}
+CSRF_TRUSTED_ORIGINS = config(
+    "CSRF_TRUSTED_ORIGINS", default="https://*.onrender.com", cast=Csv()
+)
 
 
 
