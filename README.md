@@ -55,7 +55,7 @@ python manage.py createsuperuser  # optional, for the admin
 python manage.py runserver
 ```
 
-That gives you the API at http://127.0.0.1:8000/api/ and the admin at
+That gives you the API at http://127.0.0.1:8000/api/tickers/ and the admin at
 http://127.0.0.1:8000/admin/.
 
 Frontend (in a second terminal):
